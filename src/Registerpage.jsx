@@ -101,7 +101,7 @@ function Registerpage() {
             <input name="name" className="w-full p-2 rounded bg-white/20 text-white" value={form.name} onChange={handleChange} />
           </div>
           <div className="mb-6">
-            <label className="block mb-2 font-semibold">Number of Cofounders</label>
+            <label className="block mb-2 font-semibold">Number of Co-founders</label>
             <input type="number" min="1" max="10" name="cofounders" className="w-24 p-2 rounded bg-white/20 text-white" value={form.cofounders} onChange={handleCofoundersChange} />
           </div>
           <div className="mb-6">
