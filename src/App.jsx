@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Home from "./Home";
 import AboutUs from "./AboutUs"; // Import your new page
-import Registerpage from "./Registerpage"; // Import Registerpage
-
 
 function App() {
   return (
@@ -9,7 +8,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutUs />} />
-        <Route path="/register" element={<Registerpage />} />
       </Routes>
     </Router>
   );
