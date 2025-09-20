@@ -34,7 +34,7 @@ function Home() {
               Learn More
             </Link>
             <a
-              href="mailto:contact@pocketequity.com"
+              href="mailto:contactpocketequity@gmail.com"
               className="px-8 py-3 bg-white/10 ring-1 ring-white/10 text-white/90 rounded-xl shadow-lg font-semibold hover:bg-white/20 transition"
             >
               Contact Us
