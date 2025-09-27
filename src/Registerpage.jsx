@@ -10,9 +10,13 @@ function Registerpage() {
     solution: "",
     logo: null,
     demo: null,
+    team_video: null,
     founders: [{ intro: "", photo: null, video: null, why: "", meet: "" }],
     goals: { short: "", medium: "", long: "" },
   });
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -60,9 +64,77 @@ function Registerpage() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      // Create FormData for file uploads
+      const formData = new FormData();
+      
+      // Add form data
+      formData.append('formData', JSON.stringify({
+        ...form,
+        team_intro: form.team_intro || ""
+      }));
+
+      // Add files
+      if (form.logo) {
+        formData.append('logo', form.logo);
+      }
+      if (form.demo) {
+        formData.append('demo', form.demo);
+      }
+      if (form.team_video) {
+        formData.append('team_video', form.team_video);
+      }
+
+      // Add founder files
+      form.founders.forEach((founder, idx) => {
+        if (founder.photo) {
+          formData.append(`founder_${idx}_photo`, founder.photo);
+        }
+        if (founder.video) {
+          formData.append(`founder_${idx}_video`, founder.video);
+        }
+      });
+
+      // Send to backend API
+      const response = await fetch('http://localhost:3001/api/send-email', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        console.log('Email sent successfully:', result);
+        setSubmitStatus('success');
+        
+        // Reset form after successful submission
+        setForm({
+          intro: "",
+          name: "",
+          cofounders: 1,
+          problem: "",
+          solution: "",
+          logo: null,
+          demo: null,
+          team_video: null,
+          founders: [{ intro: "", photo: null, video: null, why: "", meet: "" }],
+          goals: { short: "", medium: "", long: "" },
+        });
+      } else {
+        throw new Error(result.message || 'Failed to send email');
+      }
+
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -159,7 +231,30 @@ function Registerpage() {
             <label className="block mb-2 font-semibold">Long-term goals (6-10 years)</label>
             <textarea name="long" className="w-full p-2 rounded bg-white/20 text-white" value={form.goals.long} onChange={handleGoalsChange} />
           </div>
-          <button type="submit" className="w-full py-3 mt-6 bg-gradient-to-r from-primary-700 to-navy-700 rounded-xl font-bold text-lg hover:scale-105 transition">Submit</button>
+          {/* Status Messages */}
+          {submitStatus === 'success' && (
+            <div className="mb-4 p-4 bg-green-500/20 border border-green-500/30 rounded-lg text-green-300">
+              ✅ Form submitted successfully! You will receive an email confirmation shortly.
+            </div>
+          )}
+          
+          {submitStatus === 'error' && (
+            <div className="mb-4 p-4 bg-red-500/20 border border-red-500/30 rounded-lg text-red-300">
+              ❌ Failed to submit form. Please check your server configuration and try again.
+            </div>
+          )}
+
+          <button 
+            type="submit" 
+            disabled={isSubmitting}
+            className={`w-full py-3 mt-6 rounded-xl font-bold text-lg transition ${
+              isSubmitting 
+                ? 'bg-gray-500 cursor-not-allowed' 
+                : 'bg-gradient-to-r from-primary-700 to-navy-700 hover:scale-105'
+            }`}
+          >
+            {isSubmitting ? 'Sending...' : 'Submit Registration'}
+          </button>
         </form>
         {/* Back Button */}
         <div className="mt-20 text-center">
