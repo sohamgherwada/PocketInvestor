@@ -28,7 +28,7 @@ function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-2">
             <Link
-              to="/about"
+              to="/aboutus"
               className="px-8 py-3 bg-white/10 ring-1 ring-white/10 text-white/90 rounded-xl shadow-lg font-semibold hover:bg-white/20 transition"
             >
               Learn More
@@ -97,7 +97,7 @@ function Home() {
 
       {/* Footer */}
       <footer className="mt-auto py-8 text-center text-xs text-white/60 z-10">
-        © PocketInvestor
+        © PocketEquity
       </footer>
     </div>
   );

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 function Registerpage() {
@@ -17,6 +17,7 @@ function Registerpage() {
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -111,8 +112,6 @@ function Registerpage() {
       if (result.success) {
         console.log('Email sent successfully:', result);
         setSubmitStatus('success');
-        
-        // Reset form after successful submission
         setForm({
           intro: "",
           name: "",
@@ -125,6 +124,7 @@ function Registerpage() {
           founders: [{ intro: "", photo: null, video: null, why: "", meet: "" }],
           goals: { short: "", medium: "", long: "" },
         });
+        navigate('/registration-success');
       } else {
         throw new Error(result.message || 'Failed to send email');
       }
@@ -208,14 +208,18 @@ function Registerpage() {
             {form.founders.map((founder, idx) => (
               <div key={idx} className="mb-8 p-4 rounded bg-primary-900/20">
                 <div className="mb-2 font-semibold">Founder {idx + 1}</div>
-                <label className="block mb-1">Founder Photo</label>
-                <input type="file" name={`founder_${idx}_photo`} accept="image/*" className="w-full p-2 rounded bg-white/20 text-white mb-2" onChange={handleFounderFileChange(idx, 'photo')} />
-                <label className="block mb-1">Video entry intro</label>
-                <input type="file" name={`founder_${idx}_video`} accept="video/*" className="w-full p-2 rounded bg-white/20 text-white mb-2" onChange={handleFounderFileChange(idx, 'video')} />
-                <label className="block mb-1">What gets you out of bed to work on your start-up every morning?</label>
-                <textarea name={`founder_${idx}_why`} className="w-full p-2 rounded bg-white/20 text-white mb-2" value={founder.why} onChange={handleFounderChange(idx, 'why')} />
-                <label className="block mb-1">How did you meet your fellow co-founders?</label>
-                <textarea name={`founder_${idx}_meet`} className="w-full p-2 rounded bg-white/20 text-white mb-2" value={founder.meet} onChange={handleFounderChange(idx, 'meet')} />
+                <label className="block mb-1 font-semibold">Founder Photo *</label>
+                <input type="file" name={`founder_${idx}_photo`} accept="image/*" required className="w-full p-2 rounded bg-white/20 text-white mb-2" onChange={handleFounderFileChange(idx, 'photo')} />
+                <label className="block mb-1 font-semibold">Video entry intro *</label>
+                <input type="file" name={`founder_${idx}_video`} accept="video/*" required className="w-full p-2 rounded bg-white/20 text-white mb-2" onChange={handleFounderFileChange(idx, 'video')} />
+                <label className="block mb-1 font-semibold">What gets you out of bed to work on your start-up every morning? *</label>
+                <textarea name={`founder_${idx}_why`} required className="w-full p-2 rounded bg-white/20 text-white mb-2" value={founder.why} onChange={handleFounderChange(idx, 'why')} />
+                {form.cofounders > 1 && (
+                  <>
+                    <label className="block mb-1 font-semibold">How did you meet your fellow co-founders? *</label>
+                    <textarea name={`founder_${idx}_meet`} required className="w-full p-2 rounded bg-white/20 text-white mb-2" value={founder.meet} onChange={handleFounderChange(idx, 'meet')} />
+                  </>
+                )}
               </div>
             ))}
           </div>
@@ -254,6 +258,7 @@ function Registerpage() {
             }`}
           >
             {isSubmitting ? 'Sending...' : 'Submit Registration'}
+            
           </button>
         </form>
         {/* Back Button */}

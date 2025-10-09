@@ -5,6 +5,7 @@ import Pricing from "./Pricing";
 import Dashboard from "./Dashboard";
 import Registerpage from "./Registerpage";  
 import Navbar from "./components/Navbar";
+import RegistrationSuccess from "./RegistrationSuccess";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
          <Route path="/Pricing" element={<Pricing />} />
          <Route path="/Dashboard" element={<Dashboard />} />
          <Route path="/Registerpage" element={<Registerpage />} />
+         <Route path="/registration-success" element={<RegistrationSuccess />} />
         </Routes>
       </div>
     </Router>

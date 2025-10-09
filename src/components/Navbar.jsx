@@ -12,7 +12,6 @@ function Navbar() {
           <Link to="/AboutUs" className="text-white/90 px-3 py-2 rounded-lg hover:bg-white/10 transition">About Us</Link>
           <Link to="/Registerpage" className="text-white/90 px-3 py-2 rounded-lg hover:bg-white/10 transition">Founder Registration</Link>
           <Link to="/Pricing" className="text-white/90 px-3 py-2 rounded-lg hover:bg-white/10 transition">Pricing</Link>
-          <Link to="/Dashboard" className="text-white/90 px-3 py-2 rounded-lg hover:bg-white/10 transition">Founder Dashboard</Link>
         </div>
       </div>
     </nav>
